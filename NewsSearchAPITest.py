@@ -1,46 +1,51 @@
 import requests
-import json
 
+URL = "https://rapidapi.p.rapidapi.com/api/search/NewsSearchAPI"
+HEADERS = {
+    "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
+    "x-rapidapi-key": "Your-X-RapidAPI-Key"
+}
 
-url = "https://rapidapi.p.rapidapi.com/api/search/NewsSearchAPI"
+query = "taylor swift"
+page_number = 1
+page_size = 10
+auto_correct = True
+safe_search = False
+with_thumbnails = True
+to_published_date = ""
+from_published_date = ""
 
-headers = {
-    'x-rapidapi-host': "contextualwebsearch-websearch-v1.p.rapidapi.com",
-    'x-rapidapi-key': "4EFkAKPf2zmsh3BXV8O0UCRgymEap1P1EmAjsnuxFXkAqUJ6xT"
-    #'x-rapidapi-key': "YOUR_API_KEY"
-    }
+querystring = {"q": query,
+               "pageNumber": page_number,
+               "pageSize": page_size,
+               "autoCorrect": auto_correct,
+               "safeSearch": safe_search,
+               "withThumbnails": with_thumbnails,
+               "fromPublishedDate": to_published_date,
+               "toPublishedDate": from_published_date}
 
-
-q = "taylor swift"
-pageNumber = 1
-pageSize = 10
-autoCorrect = True
-safeSearch = False
-
-querystring = {"q":q, "pageNumber":pageNumber, "pageSize":pageSize, "autoCorrect":autoCorrect, "safeSearch":safeSearch}
-response = json.loads(requests.request("GET", url, headers=headers, params=querystring).text)
+response = requests.get(URL, headers=HEADERS, params=querystring).json()
 
 print(response)
 
-totalCount = response["totalCount"];
+total_count = response["totalCount"]
 
-for webPage in response["value"]:
+for web_page in response["value"]:
+    url = web_page["url"]
+    title = web_page["title"]
+    description = web_page["description"]
+    body = web_page["body"]
+    date_published = web_page["datePublished"]
+    language = web_page["language"]
+    is_safe = web_page["isSafe"]
+    provider = web_page["provider"]["name"]
 
-    url = webPage["url"]
-    title = webPage["title"]
-    description = webPage["description"]
-    body = webPage["body"]
-    datePublished = webPage["datePublished"]
-    language = webPage["language"]
-    isSafe = webPage["isSafe"]
-    provider = webPage["provider"]["name"]
+    image_url = web_page["image"]["url"]
+    image_height = web_page["image"]["height"]
+    image_width = web_page["image"]["width"]
 
-    imageUrl = webPage["image"]["url"]
-    imageHeight = webPage["image"]["height"]
-    imageWidth = webPage["image"]["width"]
+    thumbnail = web_page["image"]["thumbnail"]
+    thumbnail_height = web_page["image"]["thumbnailHeight"]
+    thumbnail_width = web_page["image"]["thumbnailWidth"]
 
-    thumbnail = webPage["image"]["thumbnail"]
-    thumbnailHeight = webPage["image"]["thumbnailHeight"]
-    thumbnailWidth = webPage["image"]["thumbnailWidth"]
-
-    print("Url: %s. Title: %s. Published Date:%s." % (url, title, datePublished))
+    print("Url: {}. Title: {}. Published Date: {}.".format(url, title, date_published))

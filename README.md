@@ -5,188 +5,185 @@
   - #####  Autosuggest API
   - #####  SpellCheck API
   
-## Working Code Examples in Python
 ## Web Search API
 ```sh
-import requests #install from: http://docs.python-requests.org/en/master/
+mport requests
 
-#Replace the following string value with your valid X-RapidAPI-Key.
-&Your_X_RapidAPI_Key = "XXXXXXXXXXXXXXXXXXX";
-
-#The query parameters: (update according to your search query)
-q = "Taylor%20Swift" #the search query
-pageNumber = 1 #the number of requested page
-pageSize = 10 #the size of a page
-autoCorrect = True #autoCorrectspelling
-safeSearch = False #filter results for adult content
-
-response=requests.get("https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI?q={}&pageNumber={}&amp;pageSize={}&amp;autocorrect={}&amp;safeSearch={}".format(q, pageNumber, pageSize, autoCorrect,safeSearch),
-headers={
-"X-RapidAPI-Key": Your_X_RapidAPI_Key
+URL = "https://rapidapi.p.rapidapi.com/api/Search/WebSearchAPI"
+HEADERS = {
+    'x-rapidapi-host': "contextualwebsearch-websearch-v1.p.rapidapi.com",
+    'x-rapidapi-key': "Your-X-RapidAPI-Key"
 }
-).json()
 
-#Get the numer of items returned
-totalCount = response["totalCount"];
+query = "taylor swift"
+page_number = 1
+page_size = 10
+auto_correct = True
+safe_search = False
 
-#Get the list of most frequent searches related to the input search query
-relatedSearch = response["relatedSearch"]
+querystring = {"q": query,
+               "pageNumber": page_number,
+               "pageSize": page_size,
+               "autoCorrect": auto_correct,
+               "safeSearch": safe_search}
+response = requests.get(URL, headers=HEADERS, params=querystring).json()
 
-#Go over each resulting item
-for webPage in response["value"]:
+print(response)
 
-#Get the web page metadata
-    url = webPage["url"]
-    title = webPage["title"]
-    description = webPage["description"]
-    keywords = webPage["keywords"]
-    provider = webPage["provider"]["name"]
-    datePublished = webPage["datePublished"]
+total_count = response["totalCount"]
 
-    #Get the web page image (if exists)
-    imageUrl = webPage["image"]["url"]
-    imageHeight = webPage["image"]["height"]
-    imageWidth = webPage["image"]["width"]
-    
-    thumbnail = webPage["image"]["thumbnail"]
-    thumbnailHeight = webPage["image"]["thumbnailHeight"]
-    thumbnailWidth = webPage["image"]["thumbnailWidth"]
+for web_page in response["value"]:
 
-    #An example: Output the webpage url, title and published date:
-    print("Url: %s. Title: %s. Published Date:%s." % (url, title, datePublished))
+    url = web_page["url"]
+    title = web_page["title"]
+    description = web_page["description"]
+    body = web_page["body"]
+    date_published = web_page["datePublished"]
+    language = web_page["language"]
+    is_safe = web_page["isSafe"]
+    provider = web_page["provider"]["name"]
+
+    print("Url: {}. Title: {}.".format(url, title))
 ```
 
-## News Search API 
+## News Search API
 ```sh
-import requests #install from: http://docs.python-requests.org/en/master/
+import requests
 
-#Replace the following string value with your valid X-RapidAPI-Key.
-Your_X_RapidAPI_Key = "XXXXXXXXXXXXXXXXXXX";
-
-#The query parameters: (update according to your search query)
-q = "Taylor%20Swift" #the search query
-pageNumber = 1 #the number of requested page
-pageSize = 10 #the size of a page
-autoCorrect = True #autoCorrectspelling
-safeSearch = False #filter results for adult content
-
-response=requests.get("https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/NewsSearchAPI?q={}&amp;pageNumber={}&amp;pageSize={}&amp;autocorrect={}&amp;safeSearch={}".format(q, pageNumber, pageSize, autoCorrect,safeSearch),
-headers={
-"X-RapidAPI-Key": Your_X_RapidAPI_Key
+URL = "https://rapidapi.p.rapidapi.com/api/search/NewsSearchAPI"
+HEADERS = {
+    "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
+    "x-rapidapi-key": "Your-X-RapidAPI-Key"
 }
-).json()
 
-#Get the numer of items returned
-totalCount = response["totalCount"];
+query = "taylor swift"
+page_number = 1
+page_size = 10
+auto_correct = True
+safe_search = False
+with_thumbnails = True
+to_published_date = ""
+from_published_date = ""
 
-#Get the list of most frequent searches related to the input search query
-relatedSearch = response["relatedSearch"]
+querystring = {"q": query,
+               "pageNumber": page_number,
+               "pageSize": page_size,
+               "autoCorrect": auto_correct,
+               "safeSearch": safe_search,
+               "withThumbnails": with_thumbnails,
+               "fromPublishedDate": to_published_date,
+               "toPublishedDate": from_published_date}
 
-#Go over each resulting item
-for webPage in response["value"]:
+response = requests.get(URL, headers=HEADERS, params=querystring).json()
 
-#Get the web page metadata
-    url = webPage["url"]
-    title = webPage["title"]
-    description = webPage["description"]
-    keywords = webPage["keywords"]
-    provider = webPage["provider"]["name"]
-    datePublished = webPage["datePublished"]
+print(response)
 
-    #Get the web page image (if exists)
-    imageUrl = webPage["image"]["url"]
-    imageHeight = webPage["image"]["height"]
-    imageWidth = webPage["image"]["width"]
-    
-    thumbnail = webPage["image"]["thumbnail"]
-    thumbnailHeight = webPage["image"]["thumbnailHeight"]
-    thumbnailWidth = webPage["image"]["thumbnailWidth"]
+total_count = response["totalCount"]
 
-    #An example: Output the webpage url, title and published date:
-    print("Url: %s. Title: %s. Published Date:%s." % (url, title, datePublished))
+for web_page in response["value"]:
+    url = web_page["url"]
+    title = web_page["title"]
+    description = web_page["description"]
+    body = web_page["body"]
+    date_published = web_page["datePublished"]
+    language = web_page["language"]
+    is_safe = web_page["isSafe"]
+    provider = web_page["provider"]["name"]
+
+    image_url = web_page["image"]["url"]
+    image_height = web_page["image"]["height"]
+    image_width = web_page["image"]["width"]
+
+    thumbnail = web_page["image"]["thumbnail"]
+    thumbnail_height = web_page["image"]["thumbnailHeight"]
+    thumbnail_width = web_page["image"]["thumbnailWidth"]
+
+    print("Url: {}. Title: {}. Published Date: {}.".format(url, title, date_published))
 ```
 
 ## Image Search API ##
 ```sh
-import requests #install from: http://docs.python-requests.org/en/master/
+import requests
 
-#Replace the following string value with your valid X-RapidAPI-Key.
-Your_X_RapidAPI_Key = "XXXXXXXXXXXXXXXXXXX";
-
-#The query parameters: (update according to your search query)
-q = "Taylor%20Swift" #the search query
-pageNumber = 1 #the number of requested page
-pageSize = 10 #the size of a page
-autoCorrect = True #autoCorrectspelling
-safeSearch = False #filter results for adult content
-
-response=requests.get("https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI?q={}&amp;pageNumber={}&amp;pageSize={}&amp;autocorrect={}&amp;safeSearch={}".format(q, pageNumber, pageSize, autoCorrect,safeSearch),
-headers={
-"X-RapidAPI-Key": Your_X_RapidAPI_Key
+URL = "https://rapidapi.p.rapidapi.com/api/Search/ImageSearchAPI"
+HEADERS = {
+    'x-rapidapi-host': "contextualwebsearch-websearch-v1.p.rapidapi.com",
+    'x-rapidapi-key': "Your-X-RapidAPI-Key"
 }
-).json()
 
-#Get the numer of items returned
-totalCount = response["totalCount"];
+q = "taylor swift"
+page_number = 1
+page_size = 10
+auto_correct = True
+safe_search = False
 
-#Go over each resulting item
+querystring = {"q": q,
+               "pageNumber": page_number,
+               "pageSize": page_size,
+               "autoCorrect": auto_correct,
+               "safeSearch": safe_search}
+
+response = requests.get(URL, headers=HEADERS, params=querystring).json()
+
+print(response)
+
+totalCount = response["totalCount"]
+
 for image in response["value"]:
 
-    # Get the image
-    imageUrl = webPage["url"]
-    imageHeight = webPage["height"]
-    imageWidth = webPage["width"]
-    
-    # Get the image thumbail
-    thumbnail = webPage["thumbnail"]
-    thumbnailHeight = webPage["thumbnailHeight"]
-    thumbnailWidth = webPage["thumbnailWidth"]
+    url = image["url"]
+    name = image["name"]
+    title = image["title"]
 
-    #An example: Output the webpage url, title and published date:
-    print("imageUrl: %s. imageHeight: %s. imageWidth: %s." % (imageUrl, imageHeight, imageWidth))
+    provider = image["provider"]["name"]
+
+    image_url = image["url"]
+    image_height = image["height"]
+    imageWidth = image["width"]
+
+    thumbnail = image["thumbnail"]
+    thumbnail_height = image["thumbnailHeight"]
+    thumbnail_width = image["thumbnailWidth"]
+
+    print("Url: %s. Title: %s." % (url, name))
 ```
 
-
 ## Autosuggest API ##
-### Python 3.x
 ```sh
+import requests
 
-import requests #install from: http://docs.python-requests.org/en/master/
-
-#Replace the following string value with your valid X-RapidAPI-Key.
-Your_X_RapidAPI_Key = "XXXXXXXXXXXXXX";
-
-#The query parameters: Update according to your search query.
-q = "tay" #the search query
-
-response=requests.get("https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/spelling/AutoComplete?text={}".format(q),
-headers={
-"X-RapidAPI-Key": Your_X_RapidAPI_Key
+URL = "https://rapidapi.p.rapidapi.com/api/spelling/AutoComplete"
+HEADERS = {
+    "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
+    "x-rapidapi-key": "Your-X-RapidAPI-Key"
 }
-).json()
+text = "tay"
+
+querystring = {"text": text}
+
+response = requests.get(URL, headers=HEADERS, params=querystring)
+print(response.json())
+
 ```
 
 
 ## SpellCheck API ##
 ```sh
+import requests
 
-import requests #install from: http://docs.python-requests.org/en/master/
-
-#Replace the following string value with your valid X-RapidAPI-Key.
-Your_X_RapidAPI_Key = "XXXXXXXXXXXXXX";
-
-#The query parameters: Update according to your search query.
-q = "tay" #the search query
-
-response=requests.get("https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/spelling/AutoComplete?text={}".format(q),
-headers={
-"X-RapidAPI-Key": Your_X_RapidAPI_Key
+URL = "https://rapidapi.p.rapidapi.com/api/spelling/SpellCheck"
+HEADERS = {
+    'x-rapidapi-host': "contextualwebsearch-websearch-v1.p.rapidapi.com",
+    'x-rapidapi-key': "Your-X-RapidAPI-Key"
 }
-).json()
+
+text = "teylor swiift"
+querystring = {"text": text}
+
+response = requests.get(URL, headers=HEADERS, params=querystring)
+print(response.text)
 ```
 
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
-
 

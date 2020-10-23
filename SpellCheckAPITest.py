@@ -1,18 +1,13 @@
 import requests
-import json
 
-url = "https://rapidapi.p.rapidapi.com/api/spelling/SpellCheck"
-
-
-headers = {
+URL = "https://rapidapi.p.rapidapi.com/api/spelling/SpellCheck"
+HEADERS = {
     'x-rapidapi-host': "contextualwebsearch-websearch-v1.p.rapidapi.com",
-    'x-rapidapi-key': "4EFkAKPf2zmsh3BXV8O0UCRgymEap1P1EmAjsnuxFXkAqUJ6xT"
-    }
+    'x-rapidapi-key': "Your-X-RapidAPI-Key"
+}
 
 text = "teylor swiift"
-
 querystring = {"text": text}
 
-response = requests.request("GET", url, headers=headers, params=querystring)
-
+response = requests.get(URL, headers=HEADERS, params=querystring)
 print(response.text)

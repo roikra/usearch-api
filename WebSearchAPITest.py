@@ -1,38 +1,37 @@
 import requests
-import json
 
-
-url = "https://rapidapi.p.rapidapi.com/api/Search/WebSearchAPI"
-
-headers = {
+URL = "https://rapidapi.p.rapidapi.com/api/Search/WebSearchAPI"
+HEADERS = {
     'x-rapidapi-host': "contextualwebsearch-websearch-v1.p.rapidapi.com",
-    'x-rapidapi-key': "4EFkAKPf2zmsh3BXV8O0UCRgymEap1P1EmAjsnuxFXkAqUJ6xT"
-    #'x-rapidapi-key': "YOUR_API_KEY"
-    }
+    'x-rapidapi-key': "Your-X-RapidAPI-Key"
+}
 
+query = "taylor swift"
+page_number = 1
+page_size = 10
+auto_correct = True
+safe_search = False
 
-q = "taylor swift"
-pageNumber = 1
-pageSize = 10
-autoCorrect = True
-safeSearch = False
-
-querystring = {"q":q, "pageNumber":pageNumber, "pageSize":pageSize, "autoCorrect":autoCorrect, "safeSearch":safeSearch}
-response = json.loads(requests.request("GET", url, headers=headers, params=querystring).text)
+querystring = {"q": query,
+               "pageNumber": page_number,
+               "pageSize": page_size,
+               "autoCorrect": auto_correct,
+               "safeSearch": safe_search}
+response = requests.get(URL, headers=HEADERS, params=querystring).json()
 
 print(response)
 
-totalCount = response["totalCount"];
+total_count = response["totalCount"]
 
-for webPage in response["value"]:
+for web_page in response["value"]:
 
-    url = webPage["url"]
-    title = webPage["title"]
-    description = webPage["description"]
-    body = webPage["body"]
-    datePublished = webPage["datePublished"]
-    language = webPage["language"]
-    isSafe = webPage["isSafe"]
-    provider = webPage["provider"]["name"]
+    url = web_page["url"]
+    title = web_page["title"]
+    description = web_page["description"]
+    body = web_page["body"]
+    date_published = web_page["datePublished"]
+    language = web_page["language"]
+    is_safe = web_page["isSafe"]
+    provider = web_page["provider"]["name"]
 
-    print("Url: %s. Title: %s. Published Date:%s." % (url, title, datePublished))
+    print("Url: {}. Title: {}.".format(url, title))

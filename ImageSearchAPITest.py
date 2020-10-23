@@ -1,28 +1,28 @@
 import requests
-import json
 
-
-url = "https://rapidapi.p.rapidapi.com/api/Search/ImageSearchAPI"
-
-headers = {
+URL = "https://rapidapi.p.rapidapi.com/api/Search/ImageSearchAPI"
+HEADERS = {
     'x-rapidapi-host': "contextualwebsearch-websearch-v1.p.rapidapi.com",
-    'x-rapidapi-key': "4EFkAKPf2zmsh3BXV8O0UCRgymEap1P1EmAjsnuxFXkAqUJ6xT"
-    #'x-rapidapi-key': "YOUR_API_KEY"
-    }
-
+    'x-rapidapi-key': "Your-X-RapidAPI-Key"
+}
 
 q = "taylor swift"
-pageNumber = 1
-pageSize = 10
-autoCorrect = True
-safeSearch = False
+page_number = 1
+page_size = 10
+auto_correct = True
+safe_search = False
 
-querystring = {"q":q, "pageNumber":pageNumber, "pageSize":pageSize, "autoCorrect":autoCorrect, "safeSearch":safeSearch}
-response = json.loads(requests.request("GET", url, headers=headers, params=querystring).text)
+querystring = {"q": q,
+               "pageNumber": page_number,
+               "pageSize": page_size,
+               "autoCorrect": auto_correct,
+               "safeSearch": safe_search}
+
+response = requests.get(URL, headers=HEADERS, params=querystring).json()
 
 print(response)
 
-totalCount = response["totalCount"];
+totalCount = response["totalCount"]
 
 for image in response["value"]:
 
@@ -32,12 +32,12 @@ for image in response["value"]:
 
     provider = image["provider"]["name"]
 
-    imageUrl = image["url"]
-    imageHeight = image["height"]
+    image_url = image["url"]
+    image_height = image["height"]
     imageWidth = image["width"]
 
     thumbnail = image["thumbnail"]
-    thumbnailHeight = image["thumbnailHeight"]
-    thumbnailWidth = image["thumbnailWidth"]
+    thumbnail_height = image["thumbnailHeight"]
+    thumbnail_width = image["thumbnailWidth"]
 
     print("Url: %s. Title: %s." % (url, name))
