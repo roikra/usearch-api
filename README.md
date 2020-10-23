@@ -7,7 +7,7 @@
   
 ## Web Search API
 ```sh
-mport requests
+import requests
 
 URL = "https://rapidapi.p.rapidapi.com/api/Search/WebSearchAPI"
 HEADERS = {
