@@ -17,6 +17,7 @@ querystring = {"q": query,
                "pageSize": page_size,
                "autoCorrect": auto_correct,
                "safeSearch": safe_search}
+
 response = requests.get(URL, headers=HEADERS, params=querystring).json()
 
 print(response)

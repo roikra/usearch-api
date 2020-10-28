@@ -6,14 +6,14 @@ HEADERS = {
     "x-rapidapi-key": "Your-X-RapidAPI-Key"
 }
 
-query = "taylor swift"
+query = "beyond meat"
 page_number = 1
 page_size = 10
 auto_correct = True
 safe_search = False
 with_thumbnails = True
-to_published_date = ""
 from_published_date = ""
+to_published_date = ""
 
 querystring = {"q": query,
                "pageNumber": page_number,
@@ -21,8 +21,8 @@ querystring = {"q": query,
                "autoCorrect": auto_correct,
                "safeSearch": safe_search,
                "withThumbnails": with_thumbnails,
-               "fromPublishedDate": to_published_date,
-               "toPublishedDate": from_published_date}
+               "fromPublishedDate": from_published_date,
+               "toPublishedDate": to_published_date}
 
 response = requests.get(URL, headers=HEADERS, params=querystring).json()
 
